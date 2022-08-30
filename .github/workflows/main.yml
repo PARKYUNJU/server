@@ -1,7 +1,6 @@
+name: Java CI with Gradle # workflow의 이름
 
-name: Java CI with Gradle
-
-on:
+on: # 어떤 Events를 가지고 실행할것인가
   push:
     branches: [ "feature/post" ]
   pull_request:
@@ -10,28 +9,32 @@ on:
 permissions:
   contents: read
 
-jobs:
+jobs: # 하나의 workflow는 여러개의 job을 가질 수 있다.
   build:
 
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+
+    steps:  # job은 여러개의 step으로 구성되어 있다.
+      - uses: actions/checkout@v3 # 다른 사람이 정의해둔 action을 사용해서 쓸 수 있다.
       - name: Set up JDK 1.8
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'temurin'
 
+#           github의 퍼블릭 레파지토리에 properties를 올리지 않기위해 .gitignore 에 추가 한후 GIT ACTION 단계에서 만들어서
+#           github 원격 repo 의 SETTINGS/SECRETS/ACTIONS 에서 SECRET생성 Name=PROPERTIES,value=여기 PROPERTIES내용을 담아 저장
       - name: make application.properties
         run:
+#          mkdir ./src/main/resources |
           touch ./src/main/resources/application.properties
         shell: bash
 
       - name: deliver application.properties
         run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
         shell: bash
-        
+#           스프링 프로젝트 jar 파일 빌드
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew # shell command을 실행할 수 있따.
         shell: bash
