@@ -1,5 +1,6 @@
 package com.sparta.matchgi.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,4 +42,3 @@ public class RedisChat  implements Serializable {
         this.createdAt = createdAt;
     }
 }
-

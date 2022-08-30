@@ -18,4 +18,6 @@ public class RequestResponseDto {
 
     private RequestStatus status;
 
+    private String profileImgUrl;
+
 }

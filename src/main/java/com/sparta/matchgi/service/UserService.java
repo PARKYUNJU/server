@@ -51,7 +51,6 @@ public class UserService {
 
     private final ScoreRepository scoreRepository;
 
-    private final ImageRepository imageRepository;
 
 
     @Value("${S3.bucket.name}")

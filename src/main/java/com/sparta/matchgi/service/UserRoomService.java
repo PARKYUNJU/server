@@ -58,6 +58,7 @@ public class UserRoomService {
         return new ResponseEntity<>(showRoomResponseDtoList, HttpStatus.valueOf(200));
 
     }
+
     public ResponseEntity<?> updateLastActive(Long roomId, UserDetailsImpl userDetails) {
 
         Room room = roomRepository.findById(roomId).orElseThrow(

@@ -2,9 +2,6 @@ package com.sparta.matchgi.util.converter;
 
 import com.sparta.matchgi.dto.CreatePostResponseDto;
 import com.sparta.matchgi.dto.ReviewListResponseDto;
-import com.sparta.matchgi.dto.ParticipationResponseDto;
-import com.sparta.matchgi.dto.PostFilterDto;
-import com.sparta.matchgi.dto.RequestResponseDto;
 import com.sparta.matchgi.model.ImgUrl;
 import com.sparta.matchgi.model.Post;
 import com.sparta.matchgi.model.Review;
@@ -25,13 +22,15 @@ public class DtoConverter {
                 .lng(post.getLng())
                 .matchDeadline(post.getMatchDeadline())
                 .matchStatus(post.getMatchStatus())
-                .subject(post.getSubject())
+                .subject(post.getSubject().getValue())
                 .title(post.getTitle())
                 .imgpaths(post.getImageList().stream().map(ImgUrl::getImagePathDto).collect(Collectors.toList()))
                 .imgurls(post.getImageList().stream().map(ImgUrl::getImageUrlDto).collect(Collectors.toList()))
                 .owner(owner)
                 .player(player)
                 .viewCount(post.getViewCount())
+                .profileImgUrl(post.getUser().getProfileImgUrl())
+                .nickname(post.getUser().getNickname())
                 .build();
 
         return createPostResponseDto;
@@ -47,7 +46,7 @@ public class DtoConverter {
                         .title(r.getTitle())
                         .content(r.getContent())
                         .build()
-                ).collect(Collectors.toList());
+        ).collect(Collectors.toList());
 
         return reviewListResponseDtoList;
     }

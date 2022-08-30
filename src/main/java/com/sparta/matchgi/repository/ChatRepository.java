@@ -28,5 +28,4 @@ public interface ChatRepository extends JpaRepository<Chat,Long> {
 
 
 
-    void deleteAllByRoom(Room room); //Room이랑 roomId랑 지우는 것의 차이?
 }

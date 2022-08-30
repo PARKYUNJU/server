@@ -44,8 +44,6 @@ public class PostService {
     private final ChatRepository chatRepository;
     private final RequestRepository requestRepository;
     private final S3Image s3Image;
-    private final EntityManager em;
-    private final double distanceKm = 5000.0;
     private final NotificationRepository notificationRepository;
 
 

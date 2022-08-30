@@ -1,5 +1,4 @@
 package com.sparta.matchgi.RedisRepository;
-
 import com.sparta.matchgi.model.RedisChat;
 import org.springframework.data.repository.CrudRepository;
 

@@ -38,7 +38,8 @@ public class Review {
     @OneToMany(cascade =CascadeType.ALL,mappedBy = "review")
     private List<ReviewImgUrl> reviewImageList = new ArrayList<>();
 
-    public Review(String title, String content , Post post, User user) {
+
+    public Review(String title, String content, Post post, User user) {
         this.title = title;
         this.content = content;
         this.post = post;

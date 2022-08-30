@@ -32,7 +32,7 @@ public class CreatePostResponseDto {
 
     private String address;
 
-    private SubjectEnum subject;
+    private String subject;
 
     private String content;
 
@@ -47,6 +47,11 @@ public class CreatePostResponseDto {
     private int viewCount;
 
     private int player;
+
+    private String nickname;
+
+    private String profileImgUrl;
+
 
 
 }

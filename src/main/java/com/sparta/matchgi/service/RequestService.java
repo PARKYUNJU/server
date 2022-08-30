@@ -60,7 +60,7 @@ public class RequestService {
         registerMatchAddNotification(user,postFound.get(),request.getRequestStatus());
 
 
-        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getId(),user.getNickname(),request.getRequestStatus());
+        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getId(),user.getNickname(),request.getRequestStatus(),user.getProfileImgUrl());
 
         return new ResponseEntity<>(requestResponseDto, HttpStatus.valueOf(201));
 
@@ -87,7 +87,7 @@ public class RequestService {
 
         inviteRoom(request);
 
-        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getId(),request.getUser().getNickname(),request.getRequestStatus());
+        RequestResponseDto requestResponseDto = new RequestResponseDto(request.getId(),request.getUser().getNickname(),request.getRequestStatus(),request.getUser().getProfileImgUrl());
 
         return new ResponseEntity<>(requestResponseDto,HttpStatus.valueOf(201));
 
