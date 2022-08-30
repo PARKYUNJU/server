@@ -16,6 +16,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,15 +93,42 @@ public class RequestService {
 
     }
 
+    public ResponseEntity<?> quitRequest(Long postId,UserDetailsImpl userDetails) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new IllegalArgumentException("존재하지않는 포스트입니다")
+        );
+
+        User user = userDetails.getUser();
+
+        Optional<Request> requestFound = requestRepository.findByUserAndPost(user,post);
+
+        if(requestFound.isPresent()){
+
+            Room room = roomRepository.findByPost(requestFound.get().getPost());
+
+            Optional<UserRoom> userRoomFound = userRoomRepository.findByUserAndRoom(user,room);
+
+            userRoomFound.ifPresent(userRoomRepository::delete);
+
+            Notification notification = new Notification(post.getTitle()+"에 "+user.getNickname()+"님이 참가신청을 취소하셨습니다.",post.getUser(),post);
+            notificationRepository.save(notification);
+            NotificationDetailResponseDto notificationDetailResponseDto =
+                    new NotificationDetailResponseDto(notification);
+            template.convertAndSend("/room/user/"+post.getUser().getId(),notificationDetailResponseDto);
+        }else{
+            throw new IllegalArgumentException("참가신청이 존재하지 않습니다");
+        }
+
+        return new ResponseEntity<>("정상적으로 참여 취소 되셨습니다",HttpStatus.valueOf(200));
+    }
+
     private void inviteRoom(Request request) {
         RequestStatus requestStatus = request.getRequestStatus();
 
         if(requestStatus.equals(RequestStatus.ACCEPT)){
             User user = request.getUser();
 
-            Room room = roomRepository.findById(request.getPost().getId()).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 채팅방입니다. ")
-            );
+            Room room = roomRepository.findByPost(request.getPost());
 
             UserRoom userRoom = new UserRoom(user,room, DateConverter.millsToLocalDateTime(System.currentTimeMillis()));
             userRoomRepository.save(userRoom);
@@ -107,9 +136,7 @@ public class RequestService {
         } else if (requestStatus.equals(RequestStatus.REJECT)) {
             User user = request.getUser();
 
-            Room room = roomRepository.findById(request.getPost().getId()).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 채팅방입니다. ")
-            );
+            Room room = roomRepository.findByPost(request.getPost());
 
             Optional<UserRoom> userRoom = userRoomRepository.findByUserAndRoom(user,room);
 
@@ -158,7 +185,7 @@ public class RequestService {
         Notification notification = new Notification(status.getNotificationContent(post.getTitle(), user.getNickname()),post.getUser(),post);
         notificationRepository.save(notification);
         NotificationDetailResponseDto notificationDetailResponseDto =
-                new NotificationDetailResponseDto(post.getId(), notification.getId(), notification.getContent(),notification.getCreatedAt(),notification.isIsread());
+                new NotificationDetailResponseDto(notification);
         template.convertAndSend("/room/user/"+post.getUser().getId(),notificationDetailResponseDto);
 
 
@@ -168,13 +195,9 @@ public class RequestService {
         Notification notification = new Notification(request.getRequestStatus().getNotificationContent(request.getPost().getTitle(),null),request.getUser(),request.getPost());
         notificationRepository.save(notification);
         NotificationDetailResponseDto notificationDetailResponseDto =
-                new NotificationDetailResponseDto(notification.getPost().getId(), notification.getId(), notification.getContent(),notification.getCreatedAt(),notification.isIsread());
+                new NotificationDetailResponseDto(notification);
         template.convertAndSend("/room/user/"+request.getUser().getId(),notificationDetailResponseDto);
     }
-
-
-
-
 
 
 }

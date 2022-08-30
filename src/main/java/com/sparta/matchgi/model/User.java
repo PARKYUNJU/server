@@ -33,11 +33,22 @@ public class User {
     @Column
     private String profileImgUrl;
 
+    @Column(nullable = false)
+    private boolean kakaoId = false;
+
     public User(String nickname, String email, String password) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
 
+    }
+
+    public User(String email,String password,String nickname,String profileImgUrl){
+        this.nickname =  nickname;
+        this.email = email;
+        this.password = password;
+        this.profileImgUrl = profileImgUrl;
+        this.kakaoId = true;
     }
 
     public void updateNickname(ReviseUserRequestDto reviseUserRequestDto){

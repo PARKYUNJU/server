@@ -44,6 +44,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                         post.matchDeadline,
                         post.requestCount,
                         post.matchStatus,
+                        post.address,
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(imgUrl.url)
@@ -85,6 +86,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                         post.matchDeadline,
                         post.requestCount,
                         post.matchStatus,
+                        post.address,
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(imgUrl.url)
@@ -125,6 +127,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                 post.matchStatus,
                 post.lat,
                 post.lng,
+                post.address,
                 ExpressionUtils.as(
                         JPAExpressions
                                 .select(imgUrl.url)

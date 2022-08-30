@@ -26,8 +26,6 @@ public class Review {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private int star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID")
@@ -40,10 +38,9 @@ public class Review {
     @OneToMany(cascade =CascadeType.ALL,mappedBy = "review")
     private List<ReviewImgUrl> reviewImageList = new ArrayList<>();
 
-    public Review(String title, String content, int star, Post post, User user) {
+    public Review(String title, String content , Post post, User user) {
         this.title = title;
         this.content = content;
-        this.star = star;
         this.post = post;
         this.user = user;
     }

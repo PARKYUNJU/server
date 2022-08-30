@@ -26,4 +26,9 @@ public class Room {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
+    public Room(User user,Post post){
+        this.user = user;
+        this.post = post;
+    }
+
 }

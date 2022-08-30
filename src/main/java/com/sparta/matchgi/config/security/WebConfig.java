@@ -7,9 +7,13 @@ import com.sparta.matchgi.auth.filter.FormLoginFilter;
 import com.sparta.matchgi.auth.filter.JwtAuthFilter;
 import com.sparta.matchgi.auth.jwt.HeaderTokenExtractor;
 import com.sparta.matchgi.auth.jwt.JwtDecoder;
+import com.sparta.matchgi.auth.oauth2.OAuth2AuthenticationFailureHandler;
+import com.sparta.matchgi.auth.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.sparta.matchgi.auth.oauth2.UserOAuth2Service;
 import com.sparta.matchgi.auth.provider.FormLoginAuthProvider;
 import com.sparta.matchgi.auth.provider.JWTAuthProvider;
 import com.sparta.matchgi.repository.RefreshTokenRepository;
+import com.sparta.matchgi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +39,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
     private final RefreshTokenRepository refreshTokenRepository;
-
     private final JwtDecoder jwtDecoder;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final UserRepository userRepository;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -56,6 +62,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public FormLoginFailureHandler formLoginFailureHandler() {
         return new FormLoginFailureHandler();
+    }
+
+    @Bean
+    public UserOAuth2Service userOAuth2Service(){
+        return new UserOAuth2Service(userRepository,passwordEncoder());
     }
 
     @Bean
@@ -86,6 +97,13 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                .oauth2Login()
+                .defaultSuccessUrl("/")
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler)
+                .userInfoEndpoint()
+                .userService(userOAuth2Service());
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

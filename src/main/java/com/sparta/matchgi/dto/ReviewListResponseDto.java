@@ -21,8 +21,6 @@ public class ReviewListResponseDto {
 
     private String content;
 
-    private int star;
-
     private List<String> imgUrlList;
 
 }

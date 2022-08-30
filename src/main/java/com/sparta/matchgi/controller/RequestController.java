@@ -29,5 +29,10 @@ public class RequestController {
         return requestService.showParticipationList(postId);
     }
 
+    @DeleteMapping("/api/posts/{postId}/request")
+    public ResponseEntity<?> quitRequest(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return requestService.quitRequest(postId,userDetails);
+    }
+
 
 }

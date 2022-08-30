@@ -33,7 +33,7 @@ public class PostController {
 
 
     @PostMapping("/api/posts")
-    public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDto createPostRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public ResponseEntity<?> createPost(@RequestBody CreatePostRequestDto createPostRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return postService.createPost(createPostRequestDto,userDetails);
     }

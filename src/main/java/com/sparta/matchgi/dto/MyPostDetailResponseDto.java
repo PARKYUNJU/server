@@ -20,8 +20,9 @@ public class MyPostDetailResponseDto {
     private SubjectEnum subject;
     private List<String> imageUrl;
     private LocalDateTime createdAt;
-
-
-
-
 }
+
+
+
+
+

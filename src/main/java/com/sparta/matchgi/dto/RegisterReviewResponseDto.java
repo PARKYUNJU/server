@@ -15,7 +15,5 @@ public class RegisterReviewResponseDto {
 
     private String content;
 
-    private int star;
-
     private String nickname;
 }

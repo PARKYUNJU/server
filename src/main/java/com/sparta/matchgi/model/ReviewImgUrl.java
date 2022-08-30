@@ -17,14 +17,14 @@ public class ReviewImgUrl {
     private Long id;
 
     @Column(nullable = false)
-    private String path;
+    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REVIEW_ID")
     private Review review;
 
-    public ReviewImgUrl(String Path, Review review) {
-        this.path = Path;
+    public ReviewImgUrl(String url, Review review) {
+        this.url = url;
         this.review = review;
     }
 }

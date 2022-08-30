@@ -13,5 +13,4 @@ public class RegisterReviewRequestDto {
 
     private String content;
 
-    private int star;
 }
