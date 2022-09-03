@@ -1,6 +1,6 @@
 name: Deploy to Amazon EC2
 
-on: # 어떤 Events를 가지고 실행할것인가
+on: 
   push:
     branches: [ "feature/post" ]
   pull_request:
