@@ -11,8 +11,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: matchgi-bucket
-  CODE_DEPLOY_APPLICATION_NAME: matchgi-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: matchgi-codedeploy-group
+  CODE_DEPLOY_APPLICATION_NAME: matchgi-app
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: matchgi-codedeploy-deployment-group
 permissions:
   contents: read
 
