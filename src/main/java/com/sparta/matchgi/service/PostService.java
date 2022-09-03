@@ -238,7 +238,6 @@ public class PostService {
     }
 
 
-    //거리찾기-querydsl 사용
     public List<PostFilterDto> findLocation(double lat, double lng) {
         return postRepositoryImpl.findAllByLocation(lat, lng);
     }
